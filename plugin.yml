@@ -1,0 +1,13 @@
+name: REMC SuperPickAxe
+main: sigler.rebelempiremc.com.SuperPickaxe
+version: 1.0
+description:  Alternative to WE's SuperPickAxe
+commands:
+  spa:
+    description: Allows you to nearly insta-break a block!
+  superpickaxe:
+    description: Allows you to nearly insta-break a block!
+permissions:
+  superpickaxe.use:
+    description: Allows you to use the superpickaxe
+    default: op
