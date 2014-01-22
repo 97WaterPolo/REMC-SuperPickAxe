@@ -1,3 +1,3 @@
-//Plugin automatically converts seconds to ticks!
 PositiveTimeEffectsInSeconds: 15
-NegativeTimeEffectsInSeconds: 1200
+NegativeTimeEffectsInSeconds: 60
+CooldownInSeconds: 15

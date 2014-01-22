@@ -10,4 +10,10 @@ commands:
 permissions:
   superpickaxe.use:
     description: Allows you to use the superpickaxe
+    default: true
+  superpickaxe.bypasscooldown:
+    description: Allows you to use the superpickaxe
+    default: op
+  superpickaxe.bypassmoney:
+    description: Allows you to use the superpickaxe
     default: op
