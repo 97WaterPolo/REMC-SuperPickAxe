@@ -1,3 +1,5 @@
+#The time displayed if they try to issue it before the time is up, is equal to Positive + Negative + Cooldown = Cooldown displayed.
+#So this means if your cooldown is 90sec the message displayed is 2min as 90 + 15 + 15 = 120 = 2min. The cooldown starts once the command is intiated!
 PositiveTimeEffectsInSeconds: 15
 NegativeTimeEffectsInSeconds: 15
-CooldownInSeconds: 15
+CooldownInSeconds: 90

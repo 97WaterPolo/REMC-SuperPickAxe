@@ -88,10 +88,11 @@ public class SuperPickaxe extends JavaPlugin
 					int negativecool = NegativeTimeEffectsInSeconds2 * 20;
 					int PositiveTimeEffectsInSeconds = this.getConfig().getInt("PositiveTimeEffectsInSeconds");
 					int positive = PositiveTimeEffectsInSeconds * 20;
-					int CooldownInSeconds = this.getConfig().getInt("PositiveTimeEffectsInSeconds");
+					int CooldownInSeconds = this.getConfig().getInt("CooldownInSeconds");
 					int cooldownsec = CooldownInSeconds * 20;
 					int negativerun = positive + negativecool;
 					int cooldown = cooldownsec + negativerun;
+					float cooldowndisplay = cooldown/20;
 
 					if (!(spa.contains(player)))
 					{
@@ -163,7 +164,7 @@ public class SuperPickaxe extends JavaPlugin
 					}
 					else
 					{
-						player.sendMessage(ChatColor.RED + "There is a " + cooldownsec/60 + " minute cooldown enabled!");
+						player.sendMessage(ChatColor.RED + "There is a " + cooldowndisplay/60 + " minute cooldown enabled!");
 					}
 
 				}
