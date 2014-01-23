@@ -1,4 +1,4 @@
-//Updated 1/21/14 10:17
+//Updated 1/21/14 11:00
 package sigler.rebelempiremc.com;
 
 import java.util.ArrayList;
@@ -84,13 +84,15 @@ public class SuperPickaxe extends JavaPlugin
 				{
 					int NegativeTimeEffectsInSeconds = this.getConfig().getInt("NegativeTimeEffectsInSeconds");
 					final int negative = NegativeTimeEffectsInSeconds * 20;
+					int NegativeTimeEffectsInSeconds2 = this.getConfig().getInt("NegativeTimeEffectsInSeconds");
+					int negativecool = NegativeTimeEffectsInSeconds2 * 20;
 					int PositiveTimeEffectsInSeconds = this.getConfig().getInt("PositiveTimeEffectsInSeconds");
 					int positive = PositiveTimeEffectsInSeconds * 20;
 					int CooldownInSeconds = this.getConfig().getInt("PositiveTimeEffectsInSeconds");
 					int cooldownsec = CooldownInSeconds * 20;
-					int negativerun = positive + negative;
+					int negativerun = positive + negativecool;
 					int cooldown = cooldownsec + negativerun;
-					
+
 					if (!(spa.contains(player)))
 					{
 						spa.add(player);
@@ -98,11 +100,10 @@ public class SuperPickaxe extends JavaPlugin
 						player.playSound(player.getLocation(),Sound.FIREWORK_BLAST,1, 0);
 						player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, positive, 127));
 						player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, positive, 1));
-
 						this.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {// the scheduler starts ticking, this is a delayed scheduler, which means : after a certain amount of time, he activates your code inside it
 							public void run()
 							{
-								player.sendMessage(ChatColor.YELLOW + "I feel" + ChatColor.MAGIC + " 090 " +ChatColor.MAGIC + ChatColor.YELLOW + "tired from" + ChatColor.MAGIC + " 090 " + ChatColor.YELLOW + "that mining..."); 
+								player.sendMessage(ChatColor.YELLOW + "I feel" + ChatColor.MAGIC + " 090 " +ChatColor.MAGIC + ChatColor.YELLOW + "tired from" + ChatColor.MAGIC + " 090 " + ChatColor.YELLOW + "that mining...");
 								player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, negative, 1));
 								player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, negative, 1));
 								player.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, negative, 1));
@@ -110,7 +111,7 @@ public class SuperPickaxe extends JavaPlugin
 								player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, negative, 1));
 								player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, negative, 1));
 								player.playSound(player.getLocation(),Sound.EXPLODE,1, 0);
-								
+
 							}
 						}, positive);
 						if(!(sender.hasPermission("superpickaxe.bypasscooldown")))
@@ -147,7 +148,7 @@ public class SuperPickaxe extends JavaPlugin
 								}, negativerun);
 							}else
 							{
-								this.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() 
+								this.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable()
 								{// the scheduler starts ticking, this is a delayed scheduler, which means : after a certain amount of time, he activates your code inside it
 
 									public void run()
@@ -162,7 +163,7 @@ public class SuperPickaxe extends JavaPlugin
 					}
 					else
 					{
-						player.sendMessage(ChatColor.RED + "There is a " + cooldown/60 + " minute cooldown enabled!");
+						player.sendMessage(ChatColor.RED + "There is a " + cooldownsec/60 + " minute cooldown enabled!");
 					}
 
 				}
@@ -180,7 +181,5 @@ public class SuperPickaxe extends JavaPlugin
 		return false;
 	}
 }
-
-
 
 
