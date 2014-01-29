@@ -82,6 +82,7 @@ public class SuperPickaxe extends JavaPlugin
 				final Player player = (Player) sender;
 				if (sender.hasPermission("superpickaxe.use"))
 				{
+					final int money = this.getConfig().getInt("CostToUse");
 					int NegativeTimeEffectsInSeconds = this.getConfig().getInt("NegativeTimeEffectsInSeconds");
 					final int negative = NegativeTimeEffectsInSeconds * 20;
 					int NegativeTimeEffectsInSeconds2 = this.getConfig().getInt("NegativeTimeEffectsInSeconds");
@@ -121,9 +122,9 @@ public class SuperPickaxe extends JavaPlugin
 								public void run()
 								{
 									spa.remove(player);
-									EconomyResponse r = economy.withdrawPlayer(player.getName(), 250);
+									EconomyResponse r = economy.withdrawPlayer(player.getName(), money);
 									if(r.transactionSuccess()) {
-										player.sendMessage(ChatColor.DARK_AQUA + "250$ Has been deducted and your cooldown expired!");
+										player.sendMessage(ChatColor.DARK_AQUA + "The amount of " + ChatColor.RED + money + " has been deducted and your cooldown expired!");
 									} else {
 										player.sendMessage(String.format("An error occured: %s", r.errorMessage));
 									}
@@ -139,9 +140,9 @@ public class SuperPickaxe extends JavaPlugin
 									public void run()
 									{
 										spa.remove(player);
-										EconomyResponse r = economy.withdrawPlayer(player.getName(), 250);
+										EconomyResponse r = economy.withdrawPlayer(player.getName(), money);
 										if(r.transactionSuccess()) {
-											player.sendMessage(ChatColor.DARK_AQUA + "250$ Has been deducted and your cooldown expired!");
+											player.sendMessage(ChatColor.DARK_AQUA + "The amount of " + ChatColor.RED + money + " has been deducted and your cooldown expired!");
 										} else {
 											player.sendMessage(String.format("An error occured: %s", r.errorMessage));
 										}

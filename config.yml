@@ -3,3 +3,4 @@
 PositiveTimeEffectsInSeconds: 15
 NegativeTimeEffectsInSeconds: 15
 CooldownInSeconds: 90
+CostToUse: 500
