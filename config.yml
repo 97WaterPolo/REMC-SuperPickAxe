@@ -4,3 +4,5 @@ PositiveTimeEffectsInSeconds: 15
 NegativeTimeEffectsInSeconds: 15
 CooldownInSeconds: 90
 CostToUse: 500
+#Please refer to here when changing the dropped block on bedrock mine. http://jd.bukkit.org/rb/apidocs/org/bukkit/Material.html
+DroppedBlock: STONE

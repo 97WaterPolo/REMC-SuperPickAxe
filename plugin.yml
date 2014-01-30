@@ -1,6 +1,6 @@
 name: SuperPickAxe
 main: sigler.rebelempiremc.com.SuperPickaxe
-version: 1.0
+version: 1.2
 description:  Alternative to WE's SuperPickAxe
 commands:
   spa:
@@ -15,5 +15,8 @@ permissions:
     description: Allows you to use the superpickaxe
     default: op
   superpickaxe.bypassmoney:
+    description: Allows you to use the superpickaxe
+    default: op
+  superpickaxe.break.bedrock:
     description: Allows you to use the superpickaxe
     default: op

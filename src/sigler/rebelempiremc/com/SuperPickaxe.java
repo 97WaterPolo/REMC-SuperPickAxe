@@ -8,17 +8,28 @@ import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.permission.Permission;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-public class SuperPickaxe extends JavaPlugin
+@SuppressWarnings("unused")
+public class SuperPickaxe extends JavaPlugin implements Listener
 {
 	//Vault Start
 	public static Permission permission = null;
@@ -57,10 +68,12 @@ public class SuperPickaxe extends JavaPlugin
 
 	public void onEnable()
 	{
-		if (!setupEconomy() ) {
+		if (!setupEconomy() ) 
+		{
 			getServer().getLogger().info("SuperPickAxe enabled!");
 			return;
 		}
+		this.getServer().getPluginManager().registerEvents(this,this);
 		setupPermissions();
 		setupChat();
 		saveDefaultConfig();
@@ -73,6 +86,7 @@ public class SuperPickaxe extends JavaPlugin
 	}
 
 	ArrayList<Player> spa = new ArrayList<Player>();
+	ArrayList<Player> bedrock = new ArrayList<Player>();
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
 	{
 		if (sender instanceof Player)
@@ -98,6 +112,7 @@ public class SuperPickaxe extends JavaPlugin
 					if (!(spa.contains(player)))
 					{
 						spa.add(player);
+						bedrock.add(player);
 						player.sendMessage(ChatColor.GREEN + "I feel energetic, lets mine!");
 						player.playSound(player.getLocation(),Sound.FIREWORK_BLAST,1, 0);
 						player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, positive, 127));
@@ -113,6 +128,7 @@ public class SuperPickaxe extends JavaPlugin
 								player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, negative, 1));
 								player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, negative, 1));
 								player.playSound(player.getLocation(),Sound.EXPLODE,1, 0);
+								bedrock.remove(player);
 
 							}
 						}, positive);
@@ -124,7 +140,7 @@ public class SuperPickaxe extends JavaPlugin
 									spa.remove(player);
 									EconomyResponse r = economy.withdrawPlayer(player.getName(), money);
 									if(r.transactionSuccess()) {
-										player.sendMessage(ChatColor.DARK_AQUA + "The amount of " + ChatColor.RED + money + " has been deducted and your cooldown expired!");
+										player.sendMessage(ChatColor.BLACK + "[" + ChatColor.RED + "SPA" + ChatColor.BLACK + "]" + ChatColor.DARK_AQUA + " The amount of " + ChatColor.RED + money + " has been deducted and your cooldown expired!");
 									} else {
 										player.sendMessage(String.format("An error occured: %s", r.errorMessage));
 									}
@@ -142,7 +158,7 @@ public class SuperPickaxe extends JavaPlugin
 										spa.remove(player);
 										EconomyResponse r = economy.withdrawPlayer(player.getName(), money);
 										if(r.transactionSuccess()) {
-											player.sendMessage(ChatColor.DARK_AQUA + "The amount of " + ChatColor.RED + money + " has been deducted and your cooldown expired!");
+											player.sendMessage(ChatColor.BLACK + "[" + ChatColor.RED + "SPA" + ChatColor.BLACK + "]" + ChatColor.DARK_AQUA + " The amount of " + ChatColor.RED + money + " has been deducted and your cooldown expired!");
 										} else {
 											player.sendMessage(String.format("An error occured: %s", r.errorMessage));
 										}
@@ -165,7 +181,7 @@ public class SuperPickaxe extends JavaPlugin
 					}
 					else
 					{
-						player.sendMessage(ChatColor.RED + "There is a " + cooldowndisplay/60 + " minute cooldown enabled!");
+						player.sendMessage(ChatColor.BLACK + "[" + ChatColor.RED + "SPA" + ChatColor.BLACK + "]" + ChatColor.RED + " There is a " + cooldowndisplay/60 + " minute cooldown enabled!");
 					}
 
 				}
@@ -181,6 +197,39 @@ public class SuperPickaxe extends JavaPlugin
 			sender.sendMessage("You must be a player!");
 		}
 		return false;
+	}
+	String blockdrop = this.getConfig().getString("DroppedBlock");
+	@EventHandler
+	public void playerInteract(PlayerInteractEvent e) {
+		Player player = e.getPlayer();
+		Block block = e.getClickedBlock();
+		Material hand = player.getInventory().getItemInHand().getType();
+		if (Action.LEFT_CLICK_BLOCK != null) {
+			if (block.getType() == Material.BEDROCK) {
+				if (block.getLocation().getY() > 0) {
+					if (player.hasPermission("superpickaxe.break.bedrock"))
+						if (bedrock.contains(player))
+						{
+							{
+								if ((hand == Material.DIAMOND_PICKAXE) || (hand == Material.IRON_PICKAXE))
+								{
+									block.setType(Material.AIR);
+									block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(Material.valueOf(blockdrop), 1));
+								}
+							}
+						}else
+						{
+							player.sendMessage(ChatColor.BLACK + "[" + ChatColor.RED + "SPA" + ChatColor.BLACK + "]" + ChatColor.RED + " You can only break bedrock when SPA is active!");
+						}
+				}else 
+				{
+					return;
+				}
+			}
+		}
+		else {
+			return;
+		}
 	}
 }
 
