@@ -78,6 +78,10 @@ public class SuperPickaxe extends JavaPlugin implements Listener
 		setupChat();
 		saveDefaultConfig();
 		spa.removeAll(spa);
+	    getConfig().addDefault("HasteLevel", Integer.valueOf(127));
+	    getConfig().addDefault("NegativeLevel", Integer.valueOf(1));
+	    getConfig().options().copyDefaults(true);
+	    saveConfig();
 	}
 
 	public void onDisable()
@@ -108,6 +112,8 @@ public class SuperPickaxe extends JavaPlugin implements Listener
 					int negativerun = positive + negativecool;
 					int cooldown = cooldownsec + negativerun;
 					float cooldowndisplay = cooldown/20;
+					int haste = this.getConfig().getInt("HasteLevel");
+					final int negativeeffect = this.getConfig().getInt("NegativeLevel");
 
 					if (!(spa.contains(player)))
 					{
@@ -115,18 +121,18 @@ public class SuperPickaxe extends JavaPlugin implements Listener
 						bedrock.add(player);
 						player.sendMessage(ChatColor.GREEN + "I feel energetic, lets mine!");
 						player.playSound(player.getLocation(),Sound.FIREWORK_BLAST,1, 0);
-						player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, positive, 127));
+						player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, positive, haste));
 						player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, positive, 1));
 						this.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {// the scheduler starts ticking, this is a delayed scheduler, which means : after a certain amount of time, he activates your code inside it
 							public void run()
 							{
 								player.sendMessage(ChatColor.YELLOW + "I feel" + ChatColor.MAGIC + " 090 " +ChatColor.MAGIC + ChatColor.YELLOW + "tired from" + ChatColor.MAGIC + " 090 " + ChatColor.YELLOW + "that mining...");
-								player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, negative, 1));
-								player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, negative, 1));
-								player.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, negative, 1));
-								player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, negative, 1));
-								player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, negative, 1));
-								player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, negative, 1));
+								player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, negative, negativeeffect));
+								player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, negative, negativeeffect));
+								player.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, negative, negativeeffect));
+								player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, negative, negativeeffect));
+								player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, negative, negativeeffect));
+								player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, negative, negativeeffect));
 								player.playSound(player.getLocation(),Sound.EXPLODE,1, 0);
 								bedrock.remove(player);
 

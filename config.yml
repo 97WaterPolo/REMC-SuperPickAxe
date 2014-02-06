@@ -6,3 +6,5 @@ CooldownInSeconds: 90
 CostToUse: 500
 #Please refer to here when changing the dropped block on bedrock mine. http://jd.bukkit.org/rb/apidocs/org/bukkit/Material.html
 DroppedBlock: STONE
+HasteLevel: 127
+NegativeLevel: 1
